@@ -1,10 +1,9 @@
-src/packages/
-desktop.ini
 *.sdf
 *.opendb
 *.filters
 *.user
-IrisClient/Debug/
-IrisClient/Release/
-IrisClient/.vs/
-IrisClient/ipch/
+/IrisClient/Debug/
+/IrisClient/Release/
+/IrisClient/.vs/
+/IrisClient/ipch/
+/IrisClient/mid/
