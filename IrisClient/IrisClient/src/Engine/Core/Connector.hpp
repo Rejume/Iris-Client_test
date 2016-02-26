@@ -3,14 +3,14 @@
 #ifndef __PRECOMPILEHEADERLOADED__
 #include <string>
 #endif
-#include "../../NetWork/Nettest.hpp"
+#include "../../NetWork/NetworkUDP.hpp"
 #include "../../ExtendTemplateLibrary/StringGetter.hpp"
 namespace Engine {
 namespace Core {
 	///<sumary>エンジンとの接続管理</sumary>
 	class Connector {
 		bool connectionstate = false;
-		Net::NetTest netMgr;	//network Manager
+		Net::NetworkUDP netMgr;	//network Manager
 		Net::NNS::udp::endpoint serverEndpoint;
 		int w_width = 0, w_height = 0;	//windowSize
  	public:
@@ -29,13 +29,14 @@ namespace Core {
 			int width;
 			int height;
 		};
+		///joinメッセージ受けることで接続
 		static void ConnectMessage(std::size_t t, const char * h, Net::NNS::udp::endpoint& ep) {
 			etd::StringGettor strg(h,t);	//受信パーサー
 			const char defmsg[5] = "join";
 			if (strg.IsEqual(defmsg)) {
 				auto &inst = * Instance();
-				inst.w_width = strg.GetInteger();
-				inst.w_height = strg.GetInteger();
+				//inst.w_width = strg.GetInteger();
+				//inst.w_height = strg.GetInteger();
 				inst.connectionstate = true;
 				Instance()->serverEndpoint = ep;
 			}

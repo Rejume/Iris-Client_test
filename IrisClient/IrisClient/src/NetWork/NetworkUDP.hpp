@@ -16,9 +16,8 @@ namespace Net{
 		using udp = ip::udp;
 		using tcp = ip::tcp;
 	}
-	class NetTest {
+	class NetworkUDP {
 	private:
-
 		NNS::asio::io_service _io_service;//中核となるクラス
 		std::unique_ptr< NNS::udp::socket> _psock;
 		UINT _portNo = 0;
@@ -43,7 +42,7 @@ namespace Net{
 	public:
 		///指定ポートでの生成
 		//今のところv4で
-		NetTest(unsigned portNo_) {
+		NetworkUDP(unsigned portNo_) {
 			_portNo = portNo_;
 			using namespace NNS;
 			NNS::udp::endpoint ep(udp::v4(),portNo_);
@@ -59,7 +58,7 @@ namespace Net{
 		}
 		///ランダムポートでの生成
 		//乱数適当なので後で修正
-		NetTest() {
+		NetworkUDP() {
 			auto rmd = etd::Random::GetIntegerDistribution<int>(10000, 65535);
 			auto mt = etd::Random::GetMersenne();
 			forto(60000) {
@@ -98,12 +97,12 @@ namespace Net{
 			callfunc = std::move(callfunc_);
 		}
 		bool receiving = false;
-		static void Start_Async(NetTest& nt) {
+		static void Start_Async(NetworkUDP& nt) {
 			nt.receiving = true;
 			while(nt.receiving)
 				nt.receive();
 		}
-		static void Start_AsyncOnce(NetTest& nt) {
+		static void Start_AsyncOnce(NetworkUDP& nt) {
 			nt.receive();
 	
 		}
@@ -132,33 +131,6 @@ namespace Net{
 		void Send(const std::string& msg, const NNS::udp::endpoint &to_endpoint) {
 			_psock->send_to(NNS::asio::buffer(msg), to_endpoint);
 		}
-		///全受信 //同期処理
-		//ミカン放置なので使わない
-		//void Recv(unsigned portNo_) {
-		//	using namespace NetNamespaces;
-		//	myportNo = portNo_;
-		//	try {
-		//		asio::io_service io_service;//中核となるクラス
-		//		udp::endpoint endpoint(udp::v4(), portNo_);//IPversion,ポートを指定
-		//		udp::socket socket(io_service, endpoint);//UDPソケットを作成する
-		//		boost::array<char, 2048> recv_buf;
-		//		boost::system::error_code error;
-		//		udp::endpoint remote_endpoint;//受信元の情報格納先
-		//		//recv_from はブロッキングが走る	//非同期はsocket.async_receive_fromとかで			
-		//		auto len = socket.receive_from(boost::asio::buffer(recv_buf), remote_endpoint, 0, error);
-		//		std::cout << "len:" << len << " data:" << recv_buf.data() << std::endl;
-		//	}
-		//	catch (std::exception& e) {
-		//		std::cerr << "error:" << e.what() << std::endl;
-		//	}
-		//}
-
-		///Memo
-		//endpoint socket ともにデストラクタでリリースされるようなので、move渡し注意
-		///SpeedTest LP = 10000;	10K
-		//io?service生成	:Debug 90ms
-		//endpoint生成	:Debug 2ms
-		//socket	生成		:Debug 66000ms
 	};
 	
 }

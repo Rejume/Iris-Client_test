@@ -184,7 +184,8 @@
   <ItemGroup>
     <ClInclude Include="src\Engine\Core\Connector.hpp" />
     <ClInclude Include="src\ExtendTemplateLibrary\StringGetter.hpp" />
-    <ClInclude Include="src\NetWork\Nettest.hpp" />
+    <ClInclude Include="src\NetWork\NetworkUDP.hpp" />
+    <ClInclude Include="src\NetWork\ChatUDP.hpp" />
     <ClInclude Include="src\stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

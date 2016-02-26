@@ -26,6 +26,8 @@
 #include <boost/thread.hpp>
 #include <conio.h>
 #include <random>
+
+#include <vector>
 #pragma endregion CPP DEFAULT HEADER
 
 
