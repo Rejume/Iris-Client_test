@@ -24,7 +24,7 @@ namespace Net{
 			
 		boost::array<char, 2048> _recv_buf;
 		NNS::udp::endpoint remote_endpoint;//受信元の情報格納先
-		std::function<void(std::size_t, const char*,NNS::udp::endpoint&)>callfunc;//呼び出される関数
+		std::function<void(std::size_t, const char*,NNS::udp::endpoint&)>callfunc;//非同期時呼び出される関数
 		void receive() {
 			using namespace NNS;
 			try {
@@ -104,19 +104,18 @@ namespace Net{
 		}
 		static void Start_AsyncOnce(NetworkUDP& nt) {
 			nt.receive();
-	
 		}
 		void Stop_async() {
 			receiving = false;
 			_io_service.stop();
 
 		}
-		void Recv() {
+		void Recv(std::function<void(std::size_t, const char*, NNS::udp::endpoint&)>callfunc_) {
 			using namespace NNS;
 			//受信（受信できるまで待機される）
 			udp::endpoint remote_endpoint;
 			size_t len = _psock->receive_from(boost::asio::buffer(_recv_buf), remote_endpoint);
-			callfunc(len, _recv_buf.data(), remote_endpoint);
+			callfunc_(len, _recv_buf.data(), remote_endpoint);
 		}
 		void Send(const std::string& msg, const char* ipaddr, UINT portNo_) {
 			using namespace NNS;

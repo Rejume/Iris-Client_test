@@ -23,12 +23,6 @@ namespace Core {
 			WaitConnect();
 		}
 	private:
-
-		struct ConnectMsg{
-			char msg[4];
-			int width;
-			int height;
-		};
 		///joinメッセージ受けることで接続
 		static void ConnectMessage(std::size_t t, const char * h, Net::NNS::udp::endpoint& ep) {
 			etd::StringGettor strg(h,t);	//受信パーサー
@@ -48,10 +42,10 @@ namespace Core {
 			//std::strncmp(msg->msg, msg->defmsg, 4);
 		}
 		void WaitConnect() {
-			netMgr.SetCallFunction(ConnectMessage);
+			//netMgr.SetCallFunction(ConnectMessage);
 			while (1) {
 				std::cout << "Engine接続待機・・・(join win_x win_y)";
-				netMgr.Recv();
+				netMgr.Recv(ConnectMessage);
 				if (connectionstate) {
 					std::cout << "接続しました:"<<std::endl;
 					SendEngine("FindClient");
