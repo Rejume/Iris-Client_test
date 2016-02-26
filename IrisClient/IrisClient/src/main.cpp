@@ -1,10 +1,16 @@
-//#include <boost_1_60_0/boost/regex.h>
-
-#include <boost/regex.h>
-#include <boost/version.hpp>
-//#include <boost>
+#include "NetWork\Nettest.hpp"
+#include "Engine\Core\Connector.hpp"
+#include "ExtendTemplateLibrary\StringGetter.hpp"
+Net::NNS::udp::endpoint ep;
+void hoge(std::size_t t,const char * h, Net::NNS::udp::endpoint& ep) {
+	std::cout << "GetMsg:";
+	std::cout << h;
+	std::cout <<"	len:"<<t<<std::endl;
+}
 int main() {
-	std::cout << "hoge";
-	std::cout << (BOOST_VERSION);
+	Engine::Core::Connector connector;
+	
+	rewind(stdin);
+	getchar();
 	return 0;
 }
